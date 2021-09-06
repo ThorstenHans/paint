@@ -9,21 +9,27 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Log into registry ${{ env.REGISTRY }}
-      uses: docker/login-action@28218f9b04b4f3f62068d7b6ce6ca5b26e35336c
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
       with:
-        registry: ${{ env.REGISTRY }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.REGISTRY }}
         username: ${{ secrets.ACR_USER }}
         password: ${{ secrets.ACR_TOKEN }}
-    - name: Extract Docker metadata
-      id: meta
-      uses: docker/metadata-action@98669ae865ea3cffbcbaa878cf57c20bbf1c6c38
+    - run: |
+        docker build . -t ${{ env.REGISTRY }}/paint:${{ github.sha }}
+        docker push ${{ env.REGISTRY }}/paint:${{ github.sha }}
+
+    - name: 'Deploy to Azure Container Instances'
+      uses: 'azure/aci-deploy@v1'
       with:
-        images: ${{ env.REGISTRY }}/paint
-    - name: Build and push Docker image
-      uses: docker/build-push-action@ad44023a93711e3deb337508980b4b5e9bcdc5dc
-      with:
-        context: .
-        push: true
-        tags: ${{ steps.meta.outputs.tags }}
-        labels: ${{ steps.meta.outputs.labels }}
+        resource-group: rg-spa-hosting-in-azure
+        dns-name-label: thns-paint
+        image: ${{ env.REGISTRY }}/paint:${{ github.sha }}
+        registry-username: ${{ secrets.ACR_USER }}
+        registry-password: ${{ secrets.ACR_TOKEN }}
+        name: paint
+        location: 'germanywestcentral'
