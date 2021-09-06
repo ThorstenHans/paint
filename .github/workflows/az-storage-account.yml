@@ -19,7 +19,7 @@ jobs:
       with:
         connection-string: ${{ secrets.STORAGE_ACCOUNT_CONNECTION_STRING }}
         # Folder containing the files to be uploaded to the Storage Container
-        folder: "build"
+        folder: 'build'
         # Enabled static website
         remove-existing-files: true
-        enable-static-website: true
+        enable-static-website: 'true'
