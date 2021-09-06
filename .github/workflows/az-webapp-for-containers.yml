@@ -1,0 +1,29 @@
+name: Azure Web App for Containers
+
+on:
+  workflow_dispatch:
+env:
+  REGISTRY: spasin.azurecr.io
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.REGISTRY }}
+        username: ${{ secrets.ACR_USER }}
+        password: ${{ secrets.ACR_TOKEN }}
+    - run: |
+        docker build . -t ${{ env.REGISTRY }}/paint:${{ github.sha }}
+        docker push ${{ env.REGISTRY }}/paint:${{ github.sha }}
+
+    - uses: azure/webapps-deploy@v2
+      with:
+        app-name: as-paint-containerized
+        images: ${{ env.REGISTRY }}/paint:${{ github.sha }}
