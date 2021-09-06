@@ -1,0 +1,6 @@
+.snowpack
+.idea
+build
+node_modules
+.DS_Store
+.eslintcache
