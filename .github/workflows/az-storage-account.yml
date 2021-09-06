@@ -1,0 +1,24 @@
+name: Azure Storage Account
+
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: 14.x
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run build
+    - name: Azure Static Website
+      uses: tibor19/static-website-deploy@v1
+      with:
+        connection-string: ${{ secrets.STORAGE_ACCOUNT_CONNECTION_STRING }}
+        # Folder containing the files to be uploaded to the Storage Container
+        folder: "build"
+        # Enabled static website
+        remove-existing-files: true
