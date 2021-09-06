@@ -22,4 +22,4 @@ jobs:
         folder: 'build'
         # Enabled static website
         remove-existing-files: true
-        enable-static-website: 'true'
+        enabled-static-website: 'true'
