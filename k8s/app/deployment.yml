@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: paint
+  namespace: spas-in-azure
+spec:
+  selector:
+    matchLabels:
+      app: paint
+  template:
+    metadata:
+      labels:
+        app: paint
+    spec:
+      containers:
+      - name: main
+        image: spasin.azurecr.io/paint:main
+        resources:
+          requests:
+            memory: "48Mi"
+            cpu: "100m"
+          limits:
+            memory: "64Mi"
+            cpu: "150m"
+        readinessProbe:
+          httpGet:
+            path: /favicon.ico
+            port: http
+        livenessProbe:
+          httpGet:
+            path: /favicon.ico
+            port: http
+        ports:
+        - containerPort: 80
+          name: http

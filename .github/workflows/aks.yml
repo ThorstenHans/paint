@@ -1,0 +1,40 @@
+name: Azure Kubernetes Service
+
+on:
+  workflow_dispatch:
+env:
+  REGISTRY: spasin.azurecr.io
+  AKS_NAME: aks-spa-hosting
+  AKS_RG_NAME: rg-spa-hosting-in-azure
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: azure/aks-set-context@v1
+      with:
+        creds: '${{ secrets.AZURE_CREDENTIALS }}'
+        cluster-name: ${{ env.AKS_NAME }}
+        resource-group: ${{ env.AKS_RG_NAME }}
+    
+    - uses: azure/docker-login@v1
+      with:
+        login-server: ${{ env.REGISTRY }}
+        username: ${{ secrets.ACR_USER }}
+        password: ${{ secrets.ACR_TOKEN }}
+    - run: |
+        docker build . -t ${{ env.REGISTRY }}/paint:${{ github.sha }}
+        docker push ${{ env.REGISTRY }}/paint:${{ github.sha }}
+
+    - uses: azure/k8s-deploy@v1
+      with:
+        manifests: |
+          k8s/app/deployment.yml
+          k8s/app/service.yml
+        images: |
+          ${{ env.REGISTRY }}/paint:${{ github.sha }}
+        namespace: spas-in-azure
