@@ -9,7 +9,7 @@ import type { MenuEntry } from '../../models/menu';
 
 export const fileMenu: MenuEntry = {
   caption: 'Datei',
-  mnemonic: 'F',
+  mnemonic: 'D',
   helpText: '',
   entries: [
     {
