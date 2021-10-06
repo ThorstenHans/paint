@@ -27,9 +27,9 @@ jobs:
       uses: 'azure/aci-deploy@v1'
       with:
         resource-group: rg-javascript-days
-        dns-name-label: thns-paint
+        dns-name-label: jsdays-paint
         image: ${{ env.REGISTRY }}/paint:${{ github.sha }}
         registry-username: ${{ secrets.ACR_USER }}
         registry-password: ${{ secrets.ACR_TOKEN }}
-        name: jsdays2021
+        name: jsdays2021-live
         location: 'westeurope'
