@@ -8,8 +8,8 @@ import { SendAction } from './send';
 import type { MenuEntry } from '../../models/menu';
 
 export const fileMenu: MenuEntry = {
-  caption: 'File',
-  mnemonic: 'F',
+  caption: 'Datei',
+  mnemonic: 'D',
   helpText: '',
   entries: [
     {
