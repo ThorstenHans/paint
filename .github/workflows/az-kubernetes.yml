@@ -5,7 +5,7 @@ on:
 env:
   REGISTRY: jsdays2021.azurecr.io
   AKS_NAME: aks-jsdays
-  AKS_RG_NAME: rg-rg-javascript-days
+  AKS_RG_NAME: rg-javascript-days
 jobs:
   build:
     runs-on: ubuntu-latest
