@@ -8,7 +8,7 @@ import { SendAction } from './send';
 import type { MenuEntry } from '../../models/menu';
 
 export const fileMenu: MenuEntry = {
-  caption: 'File',
+  caption: 'Datei',
   mnemonic: 'F',
   helpText: '',
   entries: [
