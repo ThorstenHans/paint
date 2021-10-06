@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: main
-        image: spasin.azurecr.io/paint:main
+        image: spasin.azurecr.io/paint:latest
+        imagePullPolicy: Always
         resources:
           requests:
             memory: "48Mi"

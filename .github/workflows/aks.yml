@@ -3,9 +3,9 @@ name: Azure Kubernetes Service
 on:
   workflow_dispatch:
 env:
-  REGISTRY: spasin.azurecr.io
-  AKS_NAME: aks-spa-hosting
-  AKS_RG_NAME: rg-spa-hosting-in-azure
+  REGISTRY: jsdays2021.azurecr.io
+  AKS_NAME: aks-jsdays
+  AKS_RG_NAME: rg-rg-javascript-days
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -22,6 +22,7 @@ jobs:
         resource-group: ${{ env.AKS_RG_NAME }}
     
     - uses: azure/docker-login@v1
+      name: Build and Push Container Image
       with:
         login-server: ${{ env.REGISTRY }}
         username: ${{ secrets.ACR_USER }}
@@ -31,10 +32,16 @@ jobs:
         docker push ${{ env.REGISTRY }}/paint:${{ github.sha }}
 
     - uses: azure/k8s-deploy@v1
+      name: Deploy Namespaces
+      with:
+        manifests: |
+          k8s/namespace.yml
+    - uses: azure/k8s-deploy@v1
+      name: Deploy Application
       with:
         manifests: |
           k8s/app/deployment.yml
           k8s/app/service.yml
         images: |
           ${{ env.REGISTRY }}/paint:${{ github.sha }}
-        namespace: spas-in-azure
+        namespace: js-days

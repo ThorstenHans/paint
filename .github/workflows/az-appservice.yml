@@ -2,8 +2,6 @@ name: Azure App Service
 
 on:
   workflow_dispatch:
-env:
-  REGISTRY: spasin.azurecr.io
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -24,6 +22,6 @@ jobs:
 
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: as-paint
+        app-name: jsdays2021
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: ./build

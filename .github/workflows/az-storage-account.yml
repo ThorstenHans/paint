@@ -14,7 +14,7 @@ jobs:
         cache: 'npm'
     - run: npm ci
     - run: npm run build
-    - name: Azure Static Website
+    - name: Azure Storage Account
       uses: tibor19/static-website-deploy@v1
       with:
         connection-string: ${{ secrets.STORAGE_ACCOUNT_CONNECTION_STRING }}
