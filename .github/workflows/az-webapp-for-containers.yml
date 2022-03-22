@@ -22,7 +22,14 @@ jobs:
     - run: |
         docker build . -t ${{ env.REGISTRY }}/paint:${{ github.sha }}
         docker push ${{ env.REGISTRY }}/paint:${{ github.sha }}
-
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: 'Login via Azure CLI'
+      uses: azure/login@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
     - uses: azure/webapps-deploy@v2
       with:
         app-name: jsdays-containerized
