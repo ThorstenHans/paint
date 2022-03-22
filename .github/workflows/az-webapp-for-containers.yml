@@ -3,7 +3,7 @@ name: Azure Web App for Containers
 on:
   workflow_dispatch:
 env:
-  REGISTRY: jsdays2021.azurecr.io
+  REGISTRY: jsdays.azurecr.io
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -25,5 +25,5 @@ jobs:
 
     - uses: azure/webapps-deploy@v2
       with:
-        app-name: jsdays2021-containerized
+        app-name: jsdays-containerized
         images: ${{ env.REGISTRY }}/paint:${{ github.sha }}

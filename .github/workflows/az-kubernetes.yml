@@ -3,9 +3,9 @@ name: Azure Kubernetes Service
 on:
   workflow_dispatch:
 env:
-  REGISTRY: jsdays2021.azurecr.io
+  REGISTRY: jsdays.azurecr.io
   AKS_NAME: aks-jsdays
-  AKS_RG_NAME: rg-javascript-days
+  AKS_RG_NAME: rg-thh-jsdays-hosting
 jobs:
   build:
     runs-on: ubuntu-latest
