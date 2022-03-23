@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: main
-        image: jsdays2021.azurecr.io/paint:latest
+        image: jsdays.azurecr.io/paint:0.0.1
         imagePullPolicy: Always
         resources:
           requests:
