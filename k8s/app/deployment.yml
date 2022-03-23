@@ -4,6 +4,7 @@ metadata:
   name: paint
   namespace: js-days
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: paint
